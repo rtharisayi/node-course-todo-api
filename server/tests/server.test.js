@@ -86,6 +86,23 @@ describe('GET /todos/:id', () => {
       .expect((res) => {
         expect(res.body.todo.text).toBe(todos[0].text)
       })
-      .end(done)
+      .end(done);
+  })
+
+  it('should return a 404 if todo not found', (done) => {
+    var newID = new ObjectID();
+
+    request(app)
+      .get(`/todo/${newID.toHexString()}`)
+      .expect(404)
+      .end(done);
+  })
+
+  it('should return a 404 for non-object IDs', (done) => {
+
+    request(app)
+      .get(`/todo/123`)
+      .expect(404)
+      .end(done);
   })
 })
